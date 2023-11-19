@@ -30,9 +30,9 @@ if __name__ == "__main__":
         response.raise_for_status()
         todos = response.json()
 
-        """Extracting finished tasks and calculating 
+        """Extracting finished tasks and calculating
         total and finished tasks count"""
-        completed_tasks = [task['title'] for task in 
+        completed_tasks = [task['title'] for task in
                            todos if task['completed']]
         total_tasks = len(todos)
         num_completed_tasks = len(completed_tasks)
