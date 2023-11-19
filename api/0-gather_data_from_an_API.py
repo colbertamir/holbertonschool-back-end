@@ -10,13 +10,14 @@ if __name__ == "__main__":
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python script.py <employee_id>")
         sys.exit(1)
-    
+
     """Parsing the employee ID from command line argument"""
     employee_id = int(sys.argv[1])
-    
+
     """URLs for fetching user and to-do data based on employee ID"""
     url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    todo_url = f"https://jsonplaceholder.typicode.com/\
+        todos?userId={employee_id}"
 
     try:
         """Fetching user data from API"""
@@ -29,8 +30,10 @@ if __name__ == "__main__":
         response.raise_for_status()
         todos = response.json()
 
-        """Extracting finished tasks and calculating total and finished tasks count"""
-        completed_tasks = [task['title'] for task in todos if task['completed']]
+        """Extracting finished tasks and calculating 
+        total and finished tasks count"""
+        completed_tasks = [task['title'] for task in 
+                           todos if task['completed']]
         total_tasks = len(todos)
         num_completed_tasks = len(completed_tasks)
 
