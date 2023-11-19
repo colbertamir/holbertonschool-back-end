@@ -35,9 +35,9 @@ if __name__ == "__main__":
         num_completed_tasks = len(completed_tasks)
 
         """Display user's task completion status & finalized tasks"""
-        print(f"Employee {user_data['name']} is done with tasks ({num_completed_tasks}/{total_tasks}):")
+        print(f"Employee {user_data['name']} is done with tasks({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
-            print(f"\t{task}")
+            print(f"\t {task}")
 
     except urllib.error.URLError as e:
         """Handle request-related exceptions"""
