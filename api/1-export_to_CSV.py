@@ -43,17 +43,11 @@ if __name__ == "__main__":
         filename = f"{employee_id}.csv"
         with open(filename, 'w', newline='') as csvfile:
             csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
-            csvwriter.writerow(
-                ["USER_ID", "USERNAME",
-                    "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-            )
+            csvwriter.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
             csvwriter.writerows(completed_tasks)
 
         """Print confirmation message after writing task data to CSV"""
-        print(
-            f"Task data for employee
-            {user_data['username']} written to {filename}"
-             )
+        print(f"Task data for employee {user_data['username']} written to {filename}")
 
     except urllib.error.URLError as e:
         """Handle request-related exceptions"""
