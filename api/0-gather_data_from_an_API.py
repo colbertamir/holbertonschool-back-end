@@ -30,8 +30,7 @@ if __name__ == "__main__":
         with urllib.request.urlopen(todo_url) as response:
             todos = json.loads(response.read().decode())
 
-        """Extract finished tasks & calculate 
-        total & finalized tasks count"""
+        """Extract finished tasks & calculate total & finalized tasks count"""
         completed_tasks = [task['title'] for task in todos if task['completed']]
         total_tasks = len(todos)
         num_completed_tasks = len(completed_tasks)
