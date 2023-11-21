@@ -8,7 +8,7 @@ import urllib.request
 
 
 if __name__ == "__main__":
-    """Check for the correct number of command-line arguments and their format"""
+    """Check for correct # of command-line arg and their format"""
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python script.py <employee_id>")
         sys.exit(1)
@@ -18,7 +18,8 @@ if __name__ == "__main__":
 
     """URLs for fetching user & to-do data based on the employee ID"""
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    todo_url = f"https://jsonplaceholder.\
+        typicode.com/todos?userId={employee_id}"
 
     try:
         """Fetch user data from API"""
@@ -29,13 +30,17 @@ if __name__ == "__main__":
         with urllib.request.urlopen(todo_url) as response:
             todos = json.loads(response.read().decode())
 
-        """Extract finished tasks & calculate total & finalized tasks count"""
+        """
+        Extract finished tasks & calculate 
+        total & finalized tasks count
+        """
         completed_tasks = [task['title'] for task in todos if task['completed']]
         total_tasks = len(todos)
         num_completed_tasks = len(completed_tasks)
 
         """Display user's task completion status & finalized tasks"""
-        print(f"Employee {user_data['name']} is done with tasks({num_completed_tasks}/{total_tasks}):")
+        print(f"Employee {user_data['name']} is done with
+         tasks({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
             print(f"\t {task}")
 
