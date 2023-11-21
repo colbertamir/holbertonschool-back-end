@@ -43,7 +43,7 @@ if __name__ == "__main__":
         filename = f'{employee_id}.csv'
         with open(filename, 'w', newline='') as csvfile:
             csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-            csvwriter.writerow(["user_ID", "username", "completed", "task"])
+            csvwriter.writerow
             for task in todos:
                 csvwriter.writerow([
                     employee_id,
