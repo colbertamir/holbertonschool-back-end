@@ -18,8 +18,7 @@ if __name__ == "__main__":
 
     """URLs for fetching user & to-do data based on the employee ID"""
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = ("https://jsonplaceholder.typicode.com/"
-                f"todos?userId={employee_id}")
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
 
     try:
         """Fetch user data from the API"""
@@ -30,32 +29,24 @@ if __name__ == "__main__":
         with urllib.request.urlopen(todo_url) as response:
             todos = json.loads(response.read().decode())
 
-        """Extract completed tasks and format the task info"""
-        completed_tasks = [
-            (str(employee_id),
-             user_data['username'],
-             str(task['completed']),
-             task['title'])
-            for task in todos
-        ]
-
         """Create a CSV file and write task info to it"""
         filename = f'{employee_id}.csv'
         with open(filename, 'w', newline='') as csvfile:
-            csvwriter = csv.writer(csvfile)
+            csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+            csvwriter.writerow(["user_ID", "username", "completed", "task"])
             for task in todos:
                 csvwriter.writerow([
-                    f'"{employee_id}"',
-                    f'"{user_data["username"]}"',
-                    f'"{task["completed"]}"',
-                    f'"{task["title"]}"'
+                    employee_id,
+                    user_data["username"],
+                    task["completed"],
+                    task["title"]
                 ])
 
         """Print confirmation message after writing task data to CSV"""
         print(
             f"Task data for employee {user_data['username']} "
             f"written to {filename}"
-            )
+        )
 
     except urllib.error.URLError as e:
         """Handle request-related exceptions"""
