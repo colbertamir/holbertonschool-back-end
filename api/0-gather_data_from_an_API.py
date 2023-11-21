@@ -18,8 +18,7 @@ if __name__ == "__main__":
 
     """URLs for fetching user & to-do data based on the employee ID"""
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = f"https://jsonplaceholder.\
-        typicode.com/todos?userId={employee_id}"
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
 
     try:
         """Fetch user data from API"""
@@ -36,8 +35,7 @@ if __name__ == "__main__":
         num_completed_tasks = len(completed_tasks)
 
         """Display user's task completion status & finalized tasks"""
-        print(f"Employee {user_data['name']} is done with
-         tasks({num_completed_tasks}/{total_tasks}):")
+        print(f"Employee {user_data['name']} is done with tasks({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
             print(f"\t {task}")
 
