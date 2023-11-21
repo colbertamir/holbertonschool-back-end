@@ -40,13 +40,22 @@ if __name__ == "__main__":
         ]
 
         """Create a CSV file and write task info to it"""
-        filename = f"{employee_id}.csv"
+        filename = f'{employee_id}.csv'
         with open(filename, 'w', newline='') as csvfile:
-            csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
-            csvwriter.writerows(completed_tasks)
+            csvwriter = csv.writer(csvfile)
+            for task in todos:
+                csvwriter.writerow([
+                    f'"{employee_id}"',
+                    f'"{user_data["username"]}"',
+                    f'"{task["completed"]}"',
+                    f'"{task["title"]}"'
+                ])
 
         """Print confirmation message after writing task data to CSV"""
-        print(f"Task data for employee {user_data['username']} written to {filename}")
+        print(
+            f"Task data for employee {user_data['username']} "
+            f"written to {filename}"
+            )
 
     except urllib.error.URLError as e:
         """Handle request-related exceptions"""
