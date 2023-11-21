@@ -1,42 +1,46 @@
 #!/usr/bin/python3
-"""Gather data from an API and doing CSV"""
+"""Gather data from an API and export to CSV"""
 
-from csv import DictWriter, QUOTE_ALL
-from requests import get
-from sys import argv
+import csv
+import json
+import sys
+import urllib.error
+import urllib.request
 
-def fetch_and_export_to_csv():
-   main_url = "https://jsonplaceholder.typicode.com"
-   todo_url = f"{main_url}/users/{argv[1]}/todos"
-   user_url = f"{main_url}/users/{argv[1]}"
-
-   """Fetching data from JSONplaceholder API"""
-   todo_result = get(todo_url).json()
-   user_result = get(user_url).json()
-
-   user_id = argv[1]
-   user_name = user_result['username']
-
-   """Formatting data for CSV export"""
-   todo_list = []
-   for todo in todo_result:
-       todo_dict = {
-           "user_id": user_id,
-           "username": user_name,
-           "task_completed_status": str(todo.get("completed")),
-           "task_title": todo.get("title")
-       }
-       todo_list.append(todo_dict)
-
-   file_name = f"{user_id}.csv"
-   """Writing to CSV"""
-   with open(file_name, 'w', newline='') as f:
-       header = ["user_id", "username", "task_completed_status", "task_title"]
-       writer = DictWriter(f, fieldnames=header, quoting=QUOTE_ALL)
-       writer.writeheader()
-       writer.writerows(todo_list)
-
-   print(f"Task data for employee {user_name} written to {file_name}")
 
 if __name__ == "__main__":
-   fetch_and_export_to_csv()
+    """Check for correct # of arg and their format"""
+    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
+        print("Usage: python script.py <employee_id>")
+        sys.exit(1)
+
+    """Extract the employee ID from the command-line argument"""
+    employee_id = int(sys.argv[1])
+
+    """URLs for fetching user & to-do data based on the employee ID"""
+    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    todo_url = (
+        "https://jsonplaceholder.typicode.com/"
+        f"todos?userId={employee_id}"
+    )
+
+    try:
+        """Fetch user data from API"""
+        with urllib.request.urlopen(user_url) as response:
+            user_data = json.loads(response.read().decode())
+
+        """Grabs to-do list for the user"""
+        with urllib.request.urlopen(todo_url) as response:
+            todos = json.loads(response.read().decode())
+
+        """Display user's task completion status & finalized tasks"""
+        print(f"Employee {user_data['name']} tasks:")
+        for task in todos:
+            print(f'"{user_data["id"]}",'
+                  f'"{user_data["username"]}",'
+                  f'"{str(task["completed"])}",'
+                  f'"{task["title"]}"')
+
+    except urllib.error.URLError as e:
+        """Handle request-related exceptions"""
+        print(f"Error occurred: {e}")
