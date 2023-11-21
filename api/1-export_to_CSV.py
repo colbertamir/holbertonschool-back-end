@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""Gather data from an API and doing CSV"""
+
 import csv
 import json
 import sys
