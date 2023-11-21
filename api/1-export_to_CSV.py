@@ -5,37 +5,38 @@ from csv import DictWriter, QUOTE_ALL
 from requests import get
 from sys import argv
 
-    main_url = "https://jsonplaceholder.typicode.com"
-    todo_url = f"{main_url}/users/{argv[1]}/todos"
-    user_url = f"{main_url}/users/{argv[1]}"
-    
-    """Fetching data from JSONplaceholder API"""
-    todo_result = get(todo_url).json()
-    user_result = get(user_url).json()
+def fetch_and_export_to_csv():
+   main_url = "https://jsonplaceholder.typicode.com"
+   todo_url = f"{main_url}/users/{argv[1]}/todos"
+   user_url = f"{main_url}/users/{argv[1]}"
 
-    user_id = argv[1]
-    user_name = user_result['username']
+   """Fetching data from JSONplaceholder API"""
+   todo_result = get(todo_url).json()
+   user_result = get(user_url).json()
 
-    """Formatting data for CSV export"""
-    todo_list = []
-    for todo in todo_result:
-        todo_dict = {
-            "USER_ID": user_id,
-            "USERNAME": user_name,
-            "TASK_COMPLETED_STATUS": str(todo.get("completed")),
-            "TASK_TITLE": todo.get("title")
-        }
-        todo_list.append(todo_dict)
+   user_id = argv[1]
+   user_name = user_result['username']
 
-    file_name = f"{user_id}.csv"
-    """Writing to CSV"""
-    with open(file_name, 'w', newline='') as f:
-        header = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = DictWriter(f, fieldnames=header, quoting=QUOTE_ALL)
-        writer.writeheader()
-        writer.writerows(todo_list)
+   """Formatting data for CSV export"""
+   todo_list = []
+   for todo in todo_result:
+       todo_dict = {
+           "user_id": user_id,
+           "username": user_name,
+           "task_completed_status": str(todo.get("completed")),
+           "task_title": todo.get("title")
+       }
+       todo_list.append(todo_dict)
 
-    print(f"Task data for employee {user_name} written to {file_name}")
+   file_name = f"{user_id}.csv"
+   """Writing to CSV"""
+   with open(file_name, 'w', newline='') as f:
+       header = ["user_id", "username", "task_completed_status", "task_title"]
+       writer = DictWriter(f, fieldnames=header, quoting=QUOTE_ALL)
+       writer.writeheader()
+       writer.writerows(todo_list)
+
+   print(f"Task data for employee {user_name} written to {file_name}")
 
 if __name__ == "__main__":
-    fetch_and_export_to_csv()
+   fetch_and_export_to_csv()

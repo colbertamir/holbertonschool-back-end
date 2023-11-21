@@ -1,4 +1,4 @@
-"user_ID","username","completed","task"
+"user_id","username","task_completed_status","task_title"
 "2","Antonette","False","suscipit repellat esse quibusdam voluptatem incidunt"
 "2","Antonette","True","distinctio vitae autem nihil ut molestias quo"
 "2","Antonette","False","et itaque necessitatibus maxime molestiae qui quas velit"
